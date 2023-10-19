@@ -1,0 +1,78 @@
+const express=require('express')
+const router=express.Router()
+const Games= require('../models/Games')
+// post data
+router.post('/',async(req,res)=>{
+const GamesData = new Games({
+    name:req.body.name,
+    score:req.body.score,
+    Description:req.body.Description,
+    url:req.body.url,
+    location:req.body.location
+
+
+})
+try{
+const GamesSave=await GamesData.save()
+res.send(GamesSave)
+}catch(err){
+    res.send({message:err})
+}
+})
+// Get all data
+router.get('/',async(req,res)=>{
+    
+    try{
+    const getGames=await Games.find()
+    res.send(getGames)
+    }catch(err){
+        res.send({message:err})
+    }
+    })
+    // get data by id
+    
+        // get by name of group
+        router.get('/:gameId',async(req,res)=>{
+      
+            try{
+            const getGamesById=await Games.findById({_id:req.params.gameId})
+            res.send(getGamesById)
+            }catch(err){
+                res.send({message:err})
+            }
+            })
+        // update data
+        router.patch('/:gameId',async(req,res)=>{
+    
+     
+            try{
+                const updateGamesById= await Games.updateOne({_id:req.params.gameId},{$set:{
+                    name:req.body.name,
+                     score:req.body.score,
+                     Description:req.body.Description,
+                     url:req.body.url,
+                     location:req.body.location
+
+        
+                }})
+                res.send(updateGamesById)
+            }
+            catch(err){
+                res.send({message:err})
+            }
+        
+        })
+        //Delete data
+        router.delete('/:gameId',async(req,res)=>{
+    
+     
+            try{
+                const deleteGamesById= await Games.deleteOne({_id:req.params.gameId})
+                 res.send(deleteGamesById)
+            }
+            catch(err){
+                res.send({message:err})
+            }
+        
+        })
+module.exports=router

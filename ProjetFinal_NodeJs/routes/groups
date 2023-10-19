@@ -1,0 +1,80 @@
+const express=require('express')
+const router=express.Router()
+const Groups= require('../models/Groups')
+// post data
+router.post('/',async(req,res)=>{
+const GroupsData = new Groups({
+    name:req.body.name,
+    group1:req.body.group1,
+    group2:req.body.group2,
+    group3:req.body.group3,
+    title:req.body.title,
+    location:req.body.location
+
+
+})
+try{
+const GroupsSave=await GroupsData.save()
+res.send(GroupsSave)
+}catch(err){
+    res.send({message:err})
+}
+})
+// Get all data
+router.get('/',async(req,res)=>{
+    
+    try{
+    const getGroups=await Groups.find()
+    res.send(getGroups)
+    }catch(err){
+        res.send({message:err})
+    }
+    })
+    // get data by id
+    
+        // get by name of group
+        router.get('/:groupName',async(req,res)=>{
+      
+            try{
+            const getGroupByName=await Groups.findOne({name:req.params.groupName})
+            res.send(getGroupByName)
+            }catch(err){
+                res.send({message:err})
+            }
+            })
+        // update data
+        router.patch('/:groupName',async(req,res)=>{
+    
+     
+            try{
+                const updateGroupsById= await Groups.updateOne({name:req.params.groupName},{$set:{
+                    name:req.body.name,
+                    group1:req.body.group1,
+                    group2:req.body.group2,
+                    group3:req.body.group3,
+                    title:req.body.title,
+                    location:req.body.location
+                
+        
+                }})
+                res.send(updateGroupsById)
+            }
+            catch(err){
+                res.send({message:err})
+            }
+        
+        })
+        //Delete data
+        router.delete('/:groupName',async(req,res)=>{
+    
+     
+            try{
+                const deleteGroupsById= await Groups.deleteOne({name:req.params.groupName})
+                 res.send(deleteGroupsById)
+            }
+            catch(err){
+                res.send({message:err})
+            }
+        
+        })
+module.exports=router

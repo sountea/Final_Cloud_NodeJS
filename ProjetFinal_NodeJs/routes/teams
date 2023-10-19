@@ -1,0 +1,78 @@
+const express=require('express')
+const router=express.Router()
+const Teams= require('../models/Teams')
+// post data
+router.post('/',async(req,res)=>{
+const TeamsData = new Teams({
+    name:req.body.name,
+    coach:req.body.coach,
+    Description:req.body.Description,
+    size:req.body.size,
+    url:req.body.url,
+    location:req.body.location
+
+
+})
+try{
+const TeamsSave=await TeamsData.save()
+res.send(TeamsSave)
+}catch(err){
+    res.send({message:err})
+}
+})
+// Get all data
+router.get('/',async(req,res)=>{
+    
+    try{
+    const getTeams=await Teams.find()
+    res.send(getTeams)
+    }catch(err){
+        res.send({message:err})
+    }
+    })
+    // get data by id
+    router.get('/:teamId',async(req,res)=>{
+      
+        try{
+        const getTeamById=await Teams.findById(req.params.teamId)
+        res.send(getTeamById)
+        }catch(err){
+            res.send({message:err})
+        }
+        })
+        // update data
+        router.patch('/:teamId',async(req,res)=>{
+    
+     
+            try{
+                const updateTeamsById= await Teams.updateOne({_id:req.params.teamId},{$set:{
+                    name:req.body.name,
+                    coach:req.body.coach,
+                    Description:req.body.Description,
+                    size:req.body.size,
+                    url:req.body.url,
+                    location:req.body.location
+                
+        
+                }})
+                res.send(updateTeamsById)
+            }
+            catch(err){
+                res.send({message:err})
+            }
+        
+        })
+        //Delete data
+        router.delete('/:teamId',async(req,res)=>{
+    
+     
+            try{
+                const deleteTeamsById= await Teams.deleteOne({_id:req.params.teamId})
+                 res.send(deleteTeamsById)
+            }
+            catch(err){
+                res.send({message:err})
+            }
+        
+        })
+module.exports=router

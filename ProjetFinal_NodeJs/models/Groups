@@ -1,0 +1,36 @@
+const mongoose=require('mongoose')
+const TeamSchema=mongoose.Schema({
+    name:{
+        type:String,
+        required:true
+
+
+    },
+    group1:{
+        type:String,
+        required:true
+    },
+    group2:{
+        type:String,
+        required:true
+    },
+    group3:{
+        type:String,
+        required:true
+    },
+    title:{
+        type:String,
+        required:true
+    },
+    location:{
+        type:String,
+        required:true
+    },
+    DateCreation:{
+        type:Date,
+        default:Date.now
+    }
+    
+
+})
+module.exports= mongoose.model('groups',TeamSchema)

@@ -1,0 +1,36 @@
+const mongoose=require('mongoose')
+const TeamSchema=mongoose.Schema({
+    name:{
+        type:String,
+        required:true
+
+
+    },
+    coach:{
+        type:String,
+        required:true
+    },
+    Description:{
+        type:String,
+        required:true
+    },
+    size:{
+        type:Number,
+        required:true
+    },
+    url:{
+        type:String,
+        required:true
+    },
+    location:{
+        type:String,
+        required:true
+    },
+    DateCreation:{
+        type:Date,
+        default:Date.now
+    }
+    
+
+})
+module.exports= mongoose.model('teams',TeamSchema)
